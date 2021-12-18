@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.mrlargha.sberhealthtest.R
-import ru.mrlargha.sberhealthtest.presentation.viewmodel.DetailMedicineFragmentViewModel
+import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainActivityViewModel
 
 class DetailMedicineFragment : Fragment() {
 
@@ -15,7 +15,7 @@ class DetailMedicineFragment : Fragment() {
         fun newInstance() = DetailMedicineFragment()
     }
 
-    private lateinit var viewModel: DetailMedicineFragmentViewModel
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,11 +23,4 @@ class DetailMedicineFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.detail_medicine_fragment, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailMedicineFragmentViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }

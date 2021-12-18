@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import ru.mrlargha.sberhealthtest.R
-import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainFragmentViewModel
+import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainActivityViewModel
 
 class MainFragment : Fragment() {
 
@@ -14,7 +14,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainFragmentViewModel
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
