@@ -45,6 +45,7 @@
         android:text="Повторить"
         android:textAllCaps="false"
         android:visibility="gone"
-        app:backgroundTint="#C51A6A" />
+        app:backgroundTint="@color/pink"
+        tools:visibility="visible" />
 
 </FrameLayout>

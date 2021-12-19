@@ -3,29 +3,48 @@ package ru.mrlargha.sberhealthtest.presentation.fragment.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.ListAdapter
 import com.squareup.picasso.Picasso
 import ru.mrlargha.sberhealthtest.R
 import ru.mrlargha.sberhealthtest.databinding.MedicineViewBinding
 import ru.mrlargha.sberhealthtest.model.Medicine
 
 class MedicineAdapter(private val clickListener: MedicineClickListener) :
-    ListAdapter<Medicine, MedicineAdapter.MedicineViewHolder>(MedicineDiffCallback()) {
+    RecyclerView.Adapter<MedicineAdapter.BaseViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicineViewHolder {
-        return MedicineViewHolder.from(parent, clickListener)
+    companion object {
+        private const val TITLE = 0
+        private const val MEDICINE = 1
     }
 
-    override fun onBindViewHolder(holder: MedicineViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    private var currentList = listOf<Medicine>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        return if (viewType == MEDICINE) MedicineViewHolder.from(parent, clickListener) else
+            return TitleViewHolder.from(parent)
     }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        if (getItemViewType(position) == MEDICINE)
+            (holder as MedicineViewHolder).bind(currentList[position - 1])
+    }
+
+    override fun getItemViewType(position: Int) = if (position > 0) MEDICINE else TITLE
+
+    override fun getItemCount() = currentList.size + 1
+
+    fun submitList(list: List<Medicine>) {
+        currentList = list
+        // Никаких микро-изменений в рамках данного задания у нас, поэтому считаем, что у нас меняется весь список разом
+        notifyDataSetChanged()
+    }
+
+    sealed class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     class MedicineViewHolder(
         itemView: View,
         private val medicineClickListener: MedicineClickListener
-    ) : RecyclerView.ViewHolder(itemView) {
+    ) : BaseViewHolder(itemView) {
 
         private var currentMedicine: Medicine? = null
 
@@ -44,21 +63,21 @@ class MedicineAdapter(private val clickListener: MedicineClickListener) :
         }
 
         companion object {
-            fun from(parent: ViewGroup, listener: MedicineClickListener): MedicineViewHolder {
+            fun from(parent: ViewGroup, listener: MedicineClickListener): BaseViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.medicine_view, parent, false)
                 return MedicineViewHolder(view, listener)
             }
         }
     }
-}
 
-class MedicineDiffCallback : DiffUtil.ItemCallback<Medicine>() {
-    override fun areItemsTheSame(oldItem: Medicine, newItem: Medicine): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: Medicine, newItem: Medicine): Boolean {
-        return oldItem == newItem
+    class TitleViewHolder(itemView: View) : BaseViewHolder(itemView) {
+        companion object {
+            fun from(parent: ViewGroup): BaseViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.medicine_list_title_view, parent, false)
+                return TitleViewHolder(view)
+            }
+        }
     }
 }

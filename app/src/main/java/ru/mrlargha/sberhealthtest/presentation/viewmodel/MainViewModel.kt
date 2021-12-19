@@ -33,21 +33,26 @@ class MainViewModel @Inject constructor(private val medicineRepository: IMedicin
 
     val selectedMedicine: LiveData<Medicine?> = _selectedMedicine
 
+    init {
+        Log.v(TAG, "ViewModel created")
+    }
+
     fun loadMedicines() {
+        Log.d(TAG, "loadMedicines: requested medicines load")
         job = viewModelScope.launch {
             val currentViewState = viewState.value as? MainActivityState.MedicineListLoaded
             if (currentViewState != null && currentViewState.data.isNotEmpty()) {
+                Log.d(TAG, "loadMedicines: medicines loaded, nothing to load")
                 return@launch
             }
             when (val response = medicineRepository.getAllMedicines()) {
                 is ServerResponse.SuccessfulResponse -> {
-                    Log.d(TAG, "loadMedicines: ${response.data}")
+                    Log.i(TAG, "loadMedicines: ${response.data}")
                     _viewState.postValue(MainActivityState.MedicineListLoaded(response.data))
                 }
                 is ServerResponse.ResponseError -> {
-                    Log.d(TAG, "loadMedicines: ${response.exception}")
-                    // TODO edit this text
-                    _viewState.postValue(MainActivityState.Error("Не удалось загрузить данные"))
+                    Log.w(TAG, "loadMedicines: ${response.exception}")
+                    _viewState.postValue(MainActivityState.Error("При загрузке произошла ошибка"))
                 }
             }
         }
@@ -62,7 +67,8 @@ class MainViewModel @Inject constructor(private val medicineRepository: IMedicin
     }
 
     override fun onCleared() {
-        super.onCleared()
         job?.cancel()
+        Log.v(TAG, "onCleared: viewModel cleared")
+        super.onCleared()
     }
 }

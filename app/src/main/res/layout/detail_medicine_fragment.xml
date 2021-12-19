@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".presentation.fragment.detail.DetailMedicineFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/detail_medicine_fragment_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#F348C8"
+        android:background="@color/pink"
         app:titleTextColor="@color/white"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         tools:title="Some titile" />

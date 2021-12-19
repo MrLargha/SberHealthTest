@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import dagger.hilt.android.AndroidEntryPoint
 import ru.mrlargha.sberhealthtest.R
 import ru.mrlargha.sberhealthtest.databinding.ActivityMainBinding
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         subscribeUI()
 
         supportFragmentManager.commit {
-            add<MainFragment>(R.id.activity_main_fragment_container)
+            replace<MainFragment>(R.id.activity_main_fragment_container)
         }
 
     }
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.popBackStack()
             } else {
                 supportFragmentManager.commit {
-                    add<DetailMedicineFragment>(
+                    replace<DetailMedicineFragment>(
                         R.id.activity_main_fragment_container,
                         null,
                         DetailMedicineFragment.newBundle(it.title)
