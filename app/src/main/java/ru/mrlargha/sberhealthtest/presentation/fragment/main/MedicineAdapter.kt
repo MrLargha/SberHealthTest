@@ -11,31 +11,43 @@ import ru.mrlargha.sberhealthtest.R
 import ru.mrlargha.sberhealthtest.databinding.MedicineViewBinding
 import ru.mrlargha.sberhealthtest.model.Medicine
 
-class MedicineAdapter :
+class MedicineAdapter(private val clickListener: MedicineClickListener) :
     ListAdapter<Medicine, MedicineAdapter.MedicineViewHolder>(MedicineDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MedicineViewHolder {
-        return MedicineViewHolder.from(parent)
+        return MedicineViewHolder.from(parent, clickListener)
     }
 
     override fun onBindViewHolder(holder: MedicineViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class MedicineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MedicineViewHolder(
+        itemView: View,
+        private val medicineClickListener: MedicineClickListener
+    ) : RecyclerView.ViewHolder(itemView) {
 
-        private val binding = MedicineViewBinding.bind(itemView)
+        private var currentMedicine: Medicine? = null
+
+        private val binding = MedicineViewBinding.bind(itemView).also {
+            it.root.setOnClickListener {
+                currentMedicine?.let { medicine ->
+                    medicineClickListener.onMedicineClick(medicine)
+                }
+            }
+        }
 
         fun bind(item: Medicine) {
             Picasso.get().load(item.icon).into(binding.medicineViewImage)
+            currentMedicine = item
             binding.medicineViewMedicineName.text = item.title
         }
 
         companion object {
-            fun from(parent: ViewGroup): MedicineViewHolder {
+            fun from(parent: ViewGroup, listener: MedicineClickListener): MedicineViewHolder {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.medicine_view, parent, false)
-                return MedicineViewHolder(view)
+                return MedicineViewHolder(view, listener)
             }
         }
     }

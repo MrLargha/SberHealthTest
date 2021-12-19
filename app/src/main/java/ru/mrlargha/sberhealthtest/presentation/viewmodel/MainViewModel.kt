@@ -33,10 +33,6 @@ class MainViewModel @Inject constructor(private val medicineRepository: IMedicin
 
     val selectedMedicine: LiveData<Medicine?> = _selectedMedicine
 
-    init {
-        loadMedicines()
-    }
-
     fun loadMedicines() {
         job = viewModelScope.launch {
             val currentViewState = viewState.value as? MainActivityState.MedicineListLoaded

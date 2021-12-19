@@ -1,6 +1,7 @@
 package ru.mrlargha.sberhealthtest.presentation.fragment.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.mrlargha.sberhealthtest.databinding.MainFragmentBinding
 import ru.mrlargha.sberhealthtest.model.presentation.MainActivityState
 import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainViewModel
+import java.util.*
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -23,19 +25,22 @@ class MainFragment : Fragment() {
     private val viewModel: MainViewModel by activityViewModels()
 
     private lateinit var binding: MainFragmentBinding
-    private val adapter = MedicineAdapter()
+    private lateinit var adapter: MedicineAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
+        adapter = MedicineAdapter {
+            viewModel.selectMedicine(it)
+            Log.d(TAG, "onCreateView: KEK ${Date()}")
+        }
         binding.mainFragmentRecyclerView.adapter = adapter
-        subscribeUI()
-
         binding.mainFragmentRetryButton.setOnClickListener {
             viewModel.loadMedicines()
         }
+        subscribeUI()
         viewModel.loadMedicines()
 
         return binding.root
