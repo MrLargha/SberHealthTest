@@ -14,11 +14,11 @@ import ru.mrlargha.sberhealthtest.model.presentation.MainActivityState
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(private val medicineRepository: IMedicineRepository) :
+class MainViewModel @Inject constructor(private val medicineRepository: IMedicineRepository) :
     ViewModel() {
 
     companion object {
-        private const val TAG = "MainActivityViewModel"
+        private const val TAG = "MainViewModel"
     }
 
     private val _viewState: MutableLiveData<MainActivityState> =

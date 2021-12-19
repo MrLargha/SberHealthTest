@@ -5,22 +5,30 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import ru.mrlargha.sberhealthtest.R
-import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainActivityViewModel
+import ru.mrlargha.sberhealthtest.databinding.MainFragmentBinding
+import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainViewModel
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        private const val TAG = "MainFragment"
     }
 
-    private lateinit var viewModel: MainActivityViewModel
+    private val viewModel: MainViewModel by activityViewModels()
+
+    private lateinit var binding: MainFragmentBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+    ): View {
+        binding = MainFragmentBinding.inflate(inflater, container ,false)
+
+        return binding.root
     }
 
 }
