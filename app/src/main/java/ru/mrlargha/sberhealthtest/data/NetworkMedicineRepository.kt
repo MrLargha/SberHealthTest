@@ -12,8 +12,9 @@ class NetworkMedicineRepository @Inject constructor(private val medicineAPI: Med
     override suspend fun getAllMedicines(): ServerResponse<List<Medicine>> {
         return try {
             val result = medicineAPI.getAllMedicines()
-            if (result.isSuccessful && result.body() != null) {
-                ServerResponse.SuccessfulResponse(result.body())
+            val body = result.body()
+            if (result.isSuccessful && body != null) {
+                ServerResponse.SuccessfulResponse(body)
             } else {
                 throw IOException("Response is not successful. Code:${result.code()}")
             }

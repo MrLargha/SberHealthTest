@@ -11,8 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="invisible"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="20"
+        tools:listitem="@layout/medicine_view"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/main_fragment_progress_bar"
@@ -28,7 +31,7 @@
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:visibility="invisible"
+        android:visibility="gone"
         tools:text="При загрузке\nпроизошла ошибка" />
 
     <com.google.android.material.button.MaterialButton
@@ -41,7 +44,7 @@
         android:layout_marginBottom="16dp"
         android:text="Повторить"
         android:textAllCaps="false"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:backgroundTint="#C51A6A" />
 
 </FrameLayout>

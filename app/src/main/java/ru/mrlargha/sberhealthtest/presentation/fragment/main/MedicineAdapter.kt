@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
+import com.squareup.picasso.Picasso
 import ru.mrlargha.sberhealthtest.R
+import ru.mrlargha.sberhealthtest.databinding.MedicineViewBinding
 import ru.mrlargha.sberhealthtest.model.Medicine
 
 class MedicineAdapter :
@@ -21,10 +23,13 @@ class MedicineAdapter :
     }
 
     class MedicineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: Medicine) {
-            TODO("Build view holder here")
-        }
 
+        private val binding = MedicineViewBinding.bind(itemView)
+
+        fun bind(item: Medicine) {
+            Picasso.get().load(item.icon).into(binding.medicineViewImage)
+            binding.medicineViewMedicineName.text = item.title
+        }
 
         companion object {
             fun from(parent: ViewGroup): MedicineViewHolder {
