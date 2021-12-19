@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#FF3C8A</color>
     <color name="dark_pink">#c6005d</color>
+    <color name="delimiter_color">#EEF3FF</color>
 </resources>
