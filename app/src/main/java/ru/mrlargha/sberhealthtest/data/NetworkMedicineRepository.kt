@@ -7,6 +7,11 @@ import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
 
+/**
+ * Иплементация репозитория для работы с медикаментами
+ *
+ * @property medicineAPI retrofit API для работы по REST
+ */
 class NetworkMedicineRepository @Inject constructor(private val medicineAPI: MedicineAPI) :
     IMedicineRepository {
     override suspend fun getAllMedicines(): ServerResponse<List<Medicine>> {

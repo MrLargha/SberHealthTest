@@ -3,17 +3,19 @@ package ru.mrlargha.sberhealthtest.presentation.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import dagger.hilt.android.AndroidEntryPoint
 import ru.mrlargha.sberhealthtest.R
 import ru.mrlargha.sberhealthtest.databinding.ActivityMainBinding
-import ru.mrlargha.sberhealthtest.model.presentation.MainActivityState
 import ru.mrlargha.sberhealthtest.presentation.fragment.detail.DetailMedicineFragment
 import ru.mrlargha.sberhealthtest.presentation.fragment.main.MainFragment
 import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainViewModel
 
+/**
+ * Главная активность
+ *
+ */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 

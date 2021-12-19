@@ -9,6 +9,11 @@ import ru.mrlargha.sberhealthtest.R
 import ru.mrlargha.sberhealthtest.databinding.MedicineViewBinding
 import ru.mrlargha.sberhealthtest.model.Medicine
 
+/**
+ * Адаптер для медикаментов
+ *
+ * @property clickListener слушатель для обработки клика по лекарству
+ */
 class MedicineAdapter(private val clickListener: MedicineClickListener) :
     RecyclerView.Adapter<MedicineAdapter.BaseViewHolder>() {
 

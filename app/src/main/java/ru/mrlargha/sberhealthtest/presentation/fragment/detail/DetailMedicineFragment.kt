@@ -12,6 +12,10 @@ import ru.mrlargha.sberhealthtest.databinding.DetailMedicineFragmentBinding
 import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainViewModel
 import java.lang.IllegalStateException
 
+/**
+ * Фрагмент детализации по медикаменту
+ *
+ */
 @AndroidEntryPoint
 class DetailMedicineFragment : Fragment() {
 

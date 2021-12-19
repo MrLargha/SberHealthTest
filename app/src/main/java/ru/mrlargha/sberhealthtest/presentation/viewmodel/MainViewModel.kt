@@ -11,9 +11,14 @@ import kotlinx.coroutines.launch
 import ru.mrlargha.sberhealthtest.domain.repository.IMedicineRepository
 import ru.mrlargha.sberhealthtest.model.Medicine
 import ru.mrlargha.sberhealthtest.model.ServerResponse
-import ru.mrlargha.sberhealthtest.model.presentation.MainActivityState
+import ru.mrlargha.sberhealthtest.model.presentation.MainFragmentState
 import javax.inject.Inject
 
+/**
+ * ViewModel для работы с MainActivity и её фрагментами (пытался сделать некое подобие SharedViewModel)
+ *
+ * @property medicineRepository репозитория для работы с медикаментами
+ */
 @HiltViewModel
 class MainViewModel @Inject constructor(private val medicineRepository: IMedicineRepository) :
     ViewModel() {
@@ -22,25 +27,35 @@ class MainViewModel @Inject constructor(private val medicineRepository: IMedicin
         private const val TAG = "MainViewModel"
     }
 
-    private val _viewState: MutableLiveData<MainActivityState> =
-        MutableLiveData(MainActivityState.Loading)
+    private val _viewState: MutableLiveData<MainFragmentState> =
+        MutableLiveData(MainFragmentState.Loading)
 
     private val _selectedMedicine: MutableLiveData<Medicine?> = MutableLiveData(null)
 
     private var job: Job? = null
 
-    val viewState: LiveData<MainActivityState> = _viewState
+    /**
+     * Состояние главное активности
+     */
+    val viewState: LiveData<MainFragmentState> = _viewState
 
+    /**
+     * Выбранный пользователем медикамент
+     */
     val selectedMedicine: LiveData<Medicine?> = _selectedMedicine
 
     init {
         Log.v(TAG, "ViewModel created")
     }
 
+    /**
+     * Загрузить список медикаментов
+     *
+     */
     fun loadMedicines() {
         Log.d(TAG, "loadMedicines: requested medicines load")
         job = viewModelScope.launch {
-            val currentViewState = viewState.value as? MainActivityState.MedicineListLoaded
+            val currentViewState = viewState.value as? MainFragmentState.MedicineListLoaded
             if (currentViewState != null && currentViewState.data.isNotEmpty()) {
                 Log.d(TAG, "loadMedicines: medicines loaded, nothing to load")
                 return@launch
@@ -48,11 +63,11 @@ class MainViewModel @Inject constructor(private val medicineRepository: IMedicin
             when (val response = medicineRepository.getAllMedicines()) {
                 is ServerResponse.SuccessfulResponse -> {
                     Log.i(TAG, "loadMedicines: ${response.data}")
-                    _viewState.postValue(MainActivityState.MedicineListLoaded(response.data))
+                    _viewState.postValue(MainFragmentState.MedicineListLoaded(response.data))
                 }
                 is ServerResponse.ResponseError -> {
                     Log.w(TAG, "loadMedicines: ${response.exception}")
-                    _viewState.postValue(MainActivityState.Error("При загрузке произошла ошибка"))
+                    _viewState.postValue(MainFragmentState.Error("При загрузке произошла ошибка"))
                 }
             }
         }

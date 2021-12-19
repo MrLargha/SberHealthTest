@@ -11,10 +11,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ru.mrlargha.sberhealthtest.databinding.MainFragmentBinding
-import ru.mrlargha.sberhealthtest.model.presentation.MainActivityState
+import ru.mrlargha.sberhealthtest.model.presentation.MainFragmentState
 import ru.mrlargha.sberhealthtest.presentation.viewmodel.MainViewModel
 import java.util.*
 
+
+/**
+ * Главный фрагмент, содержит список, сообщения об ошибке и индикатор загрузки.
+ *
+ */
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
@@ -49,7 +54,7 @@ class MainFragment : Fragment() {
     private fun subscribeUI() {
         viewModel.viewState.observe(viewLifecycleOwner) {
             when (it) {
-                is MainActivityState.Error -> {
+                is MainFragmentState.Error -> {
                     binding.apply {
                         mainFragmentProgressBar.visibility = GONE
                         mainFragmentErrorText.visibility = VISIBLE
@@ -58,7 +63,7 @@ class MainFragment : Fragment() {
                         mainFragmentErrorText.text = it.errorText
                     }
                 }
-                MainActivityState.Loading -> {
+                MainFragmentState.Loading -> {
                     binding.apply {
                         mainFragmentProgressBar.visibility = VISIBLE
                         mainFragmentErrorText.visibility = GONE
@@ -66,7 +71,7 @@ class MainFragment : Fragment() {
                         mainFragmentRecyclerView.visibility = GONE
                     }
                 }
-                is MainActivityState.MedicineListLoaded -> {
+                is MainFragmentState.MedicineListLoaded -> {
                     adapter.submitList(it.data)
                     binding.apply {
                         mainFragmentProgressBar.visibility = GONE
